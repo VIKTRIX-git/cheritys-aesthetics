@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cherity's Aesthetics – Custom Handmade Knitwear</title>
+  <meta name="description" content="Custom handmade knitwear and crochet pieces made to order. You choose the design, we bring it to life." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & TOKENS ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blush:     #F2C4CE;
+      --blush-lt:  #FDE8ED;
+      --rose:      #C4788A;
+      --deep:      #A85672;
+      --deeper:    #7D3A52;
+      --cream:     #FDF8F5;
+      --charcoal:  #1E1E1E;
+      --muted:     #7A6860;
+      --border:    rgba(168,86,114,0.15);
+
+      --ff-display: 'Great Vibes', cursive;
+      --ff-body:    'DM Sans', system-ui, sans-serif;
+
+      --nav-h: 68px;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--ff-body);
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a   { color: inherit; text-decoration: none; }
+
+    /* ─── SCROLL-REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1.2rem, 5vw, 3rem);
+      background: rgba(253,248,245,0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 24px rgba(168,86,114,0.08); }
+
+    /* Logo mark */
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: var(--ff-display);
+      font-size: 1.85rem;
+      color: var(--deep);
+      line-height: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -3px;
+      width: 0; height: 1.5px;
+      background: var(--deep);
+      transition: width 0.25s;
+    }
+    .nav-links a:hover { color: var(--deep); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--deep);
+      color: #fff !important;
+      padding: 0.55rem 1.3rem;
+      border-radius: 50px;
+      font-size: 0.78rem !important;
+      letter-spacing: 0.12em !important;
+      transition: background 0.2s, transform 0.15s !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--deeper) !important; transform: translateY(-1px); }
+
+    /* hamburger */
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .burger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--deep);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* mobile drawer */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: var(--nav-h); left: 0; right: 0;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem clamp(1.2rem, 5vw, 3rem) 2rem;
+      z-index: 199;
+      flex-direction: column;
+      gap: 1.2rem;
+      transform: translateY(-10px);
+      opacity: 0;
+      transition: all 0.3s;
+    }
+    .mobile-menu.open {
+      display: flex;
+      transform: none;
+      opacity: 1;
+    }
+    .mobile-menu a {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100svh;
+      padding-top: var(--nav-h);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      padding-bottom: 3rem;
+    }
+
+    /* subtle radial bg */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 30% 20%, rgba(242,196,206,0.45) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 75% 80%, rgba(168,86,114,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    /* animated thread lines */
+    .hero-threads {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .thread {
+      position: absolute;
+      stroke: var(--blush);
+      stroke-width: 1.5;
+      fill: none;
+      opacity: 0.5;
+    }
+    .thread path {
+      stroke-dasharray: 700;
+      stroke-dashoffset: 700;
+      animation: drawLine 3s ease forwards;
+    }
+    .thread:nth-child(2) path { stroke: var(--rose); animation-delay: 0.5s; stroke-dasharray: 800; stroke-dashoffset: 800; opacity: 0.3; }
+    .thread:nth-child(3) path { stroke: var(--blush); animation-delay: 1s; stroke-dasharray: 600; stroke-dashoffset: 600; }
+    @keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+    /* needle accent */
+    .hero-needle {
+      position: absolute;
+      top: 12%;
+      right: 8%;
+      width: clamp(60px, 8vw, 100px);
+      opacity: 0.18;
+      transform: rotate(-35deg);
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 720px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--blush-lt);
+      border: 1px solid var(--blush);
+      border-radius: 50px;
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--deep);
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+    .hero-badge span { font-size: 1rem; }
+
+    .hero-logo {
+      font-family: var(--ff-display);
+      font-size: clamp(4rem, 12vw, 9rem);
+      color: var(--deep);
+      line-height: 1.0;
+      margin-bottom: 0.2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.45s;
+    }
+    .hero-sub-brand {
+      font-size: clamp(0.7rem, 2vw, 0.85rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 1.6rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.7s;
+    }
+    .hero-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.9s;
+    }
+    .hero-tagline strong { color: var(--deep); font-weight: 500; }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 1.1s;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--deep);
+      color: #fff;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      background: var(--deeper);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(168,86,114,0.3);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1.5px solid var(--deep);
+      color: var(--deep);
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-ghost:hover {
+      background: var(--blush-lt);
+      transform: translateY(-2px);
+    }
+
+    /* floating yarn dots decoration */
+    .hero-yarn-row {
+      position: absolute;
+      bottom: 2.5rem;
+      display: flex;
+      gap: 0.6rem;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 1.4s;
+    }
+    .yarn-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SECTION SHARED ─── */
+    .section {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.2rem, 5vw, 3rem);
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 0.7rem;
+    }
+    .section-title {
+      font-family: var(--ff-display);
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      color: var(--deep);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .section-body {
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    /* ─── ABOUT ─── */
+    .about { background: var(--cream); }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2.5rem, 6vw, 5rem);
+      align-items: center;
+    }
+
+    .about-text .section-body { max-width: 480px; }
+    .about-text .section-body + .section-body { margin-top: 1rem; }
+
+    /* How it works steps */
+    .steps {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--blush-lt);
+      border: 1.5px solid var(--blush);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--ff-display);
+      font-size: 1.3rem;
+      color: var(--deep);
+      line-height: 1;
+    }
+    .step-info h4 {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 0.2rem;
+    }
+    .step-info p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* visual panel */
+    .about-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .about-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      max-width: 320px;
+      width: 100%;
+      box-shadow: 0 8px 40px rgba(168,86,114,0.08);
+    }
+    .about-card-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .about-card h3 {
+      font-family: var(--ff-display);
+      font-size: 2rem;
+      color: var(--deep);
+      margin-bottom: 0.5rem;
+    }
+    .about-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.65;
+    }
+    .about-card-tag {
+      display: inline-block;
+      margin-top: 1.2rem;
+      background: var(--blush-lt);
+      color: var(--deep);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.9rem;
+      border-radius: 20px;
+    }
+
+    /* floating accent card */
+    .about-accent {
+      position: absolute;
+      bottom: -1.5rem;
+      right: -1rem;
+      background: var(--deep);
+      color: #fff;
+      border-radius: 20px;
+      padding: 1rem 1.3rem;
+      font-size: 0.8rem;
+      font-weight: 400;
+      line-height: 1.5;
+      max-width: 180px;
+      box-shadow: 0 8px 24px rgba(168,86,114,0.25);
+    }
+    .about-accent strong {
+      display: block;
+      font-family: var(--ff-display);
+      font-size: 1.6rem;
+      font-weight: 400;
+      margin-bottom: 0.1rem;
+    }
+
+    /* ─── COLOURS ─── */
+    .colours { background: #fef0f4; }
+
+    .colours-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin-bottom: 3rem;
+    }
+
+    .colours-note {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.8rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .colours-note-icon { font-size: 2rem; flex-shrink: 0; }
+    .colours-note h4 {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 0.3rem;
+    }
+    .colours-note p {
+      font-size: 0.83rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* spinning colour wheel */
+    .wheel-wrapper {
+      display: flex;
+      justify-content: center;
+      margin: 1rem 0 2.5rem;
+    }
+    .colour-wheel {
+      position: relative;
+      width: clamp(220px, 35vw, 320px);
+      height: clamp(220px, 35vw, 320px);
+    }
+    .wheel-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px; height: 80px;
+      background: var(--cream);
+      border-radius: 50%;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 0 4px var(--border), 0 4px 16px rgba(168,86,114,0.12);
+    }
+    .wheel-center span { font-size: 2.2rem; }
+
+    .wheel-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      animation: spinWheel 20s linear infinite;
+    }
+    .wheel-ring-inner {
+      position: absolute;
+      inset: 18%;
+      border-radius: 50%;
+      animation: spinWheel 14s linear infinite reverse;
+    }
+    @keyframes spinWheel { to { transform: rotate(360deg); } }
+
+    .colour-orb {
+      position: absolute;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      top: 50%; left: 50%;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      transition: transform 0.2s;
+    }
+    .colour-orb-sm {
+      width: 28px; height: 28px;
+    }
+    .colour-orb:hover { transform: translate(-50%, -50%) scale(1.35) !important; }
+
+    /* colour grid */
+    .colour-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+    .colour-tile {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+    .colour-tile:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .colour-swatch {
+      height: 90px;
+    }
+    .colour-label {
+      background: #fff;
+      padding: 0.6rem 0.8rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .colours-disclaimer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .colours-disclaimer strong { color: var(--deep); font-style: normal; }
+
+    /* ─── PROCESS BANNER ─── */
+    .process-banner {
+      background: var(--deep);
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.2rem, 5vw, 3rem);
+      text-align: center;
+      color: #fff;
+    }
+    .process-banner .section-title { color: #fff; }
+    .process-banner .section-body { color: rgba(255,255,255,0.75); max-width: 540px; margin: 0 auto 2.5rem; }
+
+    .process-steps-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .process-step {
+      flex: 1 1 200px;
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+    .process-step:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.3);
+      font-size: 1.4rem;
+    }
+    .process-step-icon { font-size: 2.4rem; margin-bottom: 1rem; }
+    .process-step h4 {
+      font-size: 0.92rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--blush);
+      margin-bottom: 0.5rem;
+    }
+    .process-step p {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.65);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* ─── CONTACT ─── */
+    .contact { background: var(--cream); }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(2.5rem, 6vw, 5rem);
+      align-items: start;
+    }
+
+    .contact-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.3rem 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .contact-card:hover {
+      transform: translateX(6px);
+      box-shadow: 0 6px 24px rgba(168,86,114,0.1);
+      border-color: var(--rose);
+    }
+    .contact-card-icon {
+      width: 46px; height: 46px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .ic-wa  { background: #dcf8c6; }
+    .ic-gm  { background: #fce8e6; }
+    .ic-ig  { background: linear-gradient(135deg, #ffecd2, #fcb69f, #a18cd1, #fbc2eb); }
+    .ic-tt  { background: #e8f4fd; }
+    .ic-fb  { background: #e7f0fd; }
+
+    .contact-card-info h4 {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--charcoal);
+      margin-bottom: 0.15rem;
+    }
+    .contact-card-info p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .contact-card-arrow {
+      margin-left: auto;
+      color: var(--rose);
+      font-size: 1.1rem;
+      opacity: 0.5;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .contact-card:hover .contact-card-arrow { opacity: 1; transform: translateX(3px); }
+
+    /* right panel */
+    .contact-panel {
+      background: var(--blush-lt);
+      border: 1px solid var(--blush);
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
+    }
+    .contact-panel h3 {
+      font-family: var(--ff-display);
+      font-size: 2.2rem;
+      color: var(--deep);
+      margin-bottom: 0.8rem;
+    }
+    .contact-panel p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.75;
+      margin-bottom: 1.2rem;
+    }
+    .panel-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .ptag {
+      background: var(--blush);
+      color: var(--deep);
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+    }
+    .panel-cta {
+      display: block;
+      margin-top: 1.8rem;
+      text-align: center;
+      background: var(--deep);
+      color: #fff;
+      padding: 0.9rem;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .panel-cta:hover { background: var(--deeper); transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--charcoal);
+      color: rgba(255,255,255,0.35);
+      padding: 2.5rem clamp(1.2rem, 5vw, 3rem);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: var(--ff-display);
+      font-size: 1.8rem;
+      color: var(--blush);
+    }
+    footer p { font-size: 0.78rem; }
+    footer span { color: var(--rose); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .burger    { display: flex; }
+
+      .about-inner      { grid-template-columns: 1fr; }
+      .about-visual     { display: none; }
+      .colours-intro    { grid-template-columns: 1fr; }
+      .contact-inner    { grid-template-columns: 1fr; }
+
+      .process-step:not(:last-child)::after { display: none; }
+
+      .hero-needle { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .colour-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-ghost { width: 100%; max-width: 280px; justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ NAV ═══ -->
+  <nav id="main-nav">
+    <a href="#home" class="nav-logo" aria-label="Cherity's Aesthetics Home">
+      <!-- Yarn ball SVG logo icon -->
+      <svg class="logo-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="30" cy="30" r="28" fill="#F2C4CE"/>
+        <circle cx="30" cy="30" r="28" stroke="#A85672" stroke-width="1.5" fill="none"/>
+        <!-- yarn wraps -->
+        <ellipse cx="30" cy="30" rx="28" ry="11" stroke="#A85672" stroke-width="1.5" fill="none"/>
+        <ellipse cx="30" cy="30" rx="11" ry="28" stroke="#A85672" stroke-width="1.5" fill="none"/>
+        <ellipse cx="30" cy="30" rx="28" ry="11" stroke="#A85672" stroke-width="1.2" fill="none" transform="rotate(45 30 30)"/>
+        <!-- needle line -->
+        <line x1="46" y1="10" x2="58" y2="4" stroke="#8B5E3C" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="46" cy="10" r="2" fill="#8B5E3C"/>
+      </svg>
+      <span class="logo-text">Cherity's</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#colours">Colours</a></li>
+      <li><a href="#contact" class="nav-cta">Order Now</a></li>
+    </ul>
+
+    <button class="burger" id="burger-btn" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- mobile drawer -->
+  <div class="mobile-menu" id="mobile-menu" role="navigation">
+    <a href="#home"    onclick="closeMenu()">Home</a>
+    <a href="#about"   onclick="closeMenu()">About</a>
+    <a href="#colours" onclick="closeMenu()">Colours</a>
+    <a href="#contact" onclick="closeMenu()">Contact / Order Now</a>
+  </div>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="home">
+    <!-- thread animations -->
+    <div class="hero-threads" aria-hidden="true">
+      <svg class="thread" style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+        <path d="M-10,180 C200,80 380,320 600,210 S880,60 1210,220"/>
+      </svg>
+      <svg class="thread" style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+        <path d="M1210,500 C1000,600 780,400 580,480 S280,600 -10,520"/>
+      </svg>
+      <svg class="thread" style="position:absolute;inset:0;width:100%;height:100%;" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+        <path d="M200,-10 C280,200 180,380 300,560 S480,750 420,710"/>
+      </svg>
+    </div>
+
+    <!-- decorative needle -->
+    <svg class="hero-needle" viewBox="0 0 20 200" fill="none" aria-hidden="true">
+      <rect x="8" y="0" width="4" height="170" rx="2" fill="#8B5E3C"/>
+      <ellipse cx="10" cy="175" rx="5" ry="8" fill="#8B5E3C"/>
+      <circle cx="10" cy="175" r="2.5" fill="var(--cream)"/>
+    </svg>
+
+    <div class="hero-content">
+      <div class="hero-badge"><span>🧶</span> Handmade · Custom Orders · Any Design</div>
+
+      <h1 class="hero-logo">Cherity's Aesthetics</h1>
+      <p class="hero-sub-brand">Handcrafted Knitwear &amp; Crochet</p>
+
+      <p class="hero-tagline">
+        You imagine it — <strong>we knit it into reality.</strong><br>
+        Custom handmade pieces crafted exactly to your style, size &amp; colour.
+      </p>
+
+      <div class="hero-actions">
+        <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" class="btn-primary" target="_blank" rel="noopener">
+          💬 &nbsp;Start Your Order
+        </a>
+        <a href="#about" class="btn-ghost">
+          How It Works →
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-yarn-row" aria-hidden="true">
+      <div class="yarn-dot" style="background:#E8919F;"></div>
+      <div class="yarn-dot" style="background:#2B2B2B;"></div>
+      <div class="yarn-dot" style="background:#7D8C3A;"></div>
+      <div class="yarn-dot" style="background:#E8B4C0;"></div>
+      <div class="yarn-dot" style="background:#8B5E3C;"></div>
+      <div class="yarn-dot" style="background:#C4778A;"></div>
+      <div class="yarn-dot" style="background:#5B7FA6;"></div>
+      <div class="yarn-dot" style="background:#A67BC4;"></div>
+      <div class="yarn-dot" style="background:#F0C04A;"></div>
+    </div>
+  </section>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section class="section about" id="about">
+    <div class="container about-inner">
+      <div class="about-text">
+        <p class="eyebrow reveal">Who We Are</p>
+        <h2 class="section-title reveal">Handmade with heart,<br>built for <em>you</em></h2>
+        <p class="section-body reveal">
+          Cherity's Aesthetics is a custom handmade knitwear and crochet studio. Every piece starts with <em>your</em> vision — whether it's a cosy cardigan, a chic top, a gift for someone special, or any clothing design you have in mind.
+        </p>
+        <p class="section-body reveal">
+          We calculate the exact cost of yarn, materials, and craftsmanship needed for your specific piece — so you only ever pay a fair, personalised price.
+        </p>
+
+        <div class="steps reveal">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-info">
+              <h4>Tell us your vision</h4>
+              <p>Send us the clothing type, design, colour(s), and your size via WhatsApp or DM.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-info">
+              <h4>We calculate the price</h4>
+              <p>We work out the exact wool/yarn cost plus our craftsmanship fee and send you a quote.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-info">
+              <h4>We make it, you wear it</h4>
+              <p>Once confirmed, we handcraft your piece with care and deliver it looking exactly as imagined.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-visual reveal">
+        <div class="about-card">
+          <div class="about-card-icon">🧶</div>
+          <h3>Every piece,<br>made for you</h3>
+          <p>No two items are the same. Each order is crafted fresh, with the exact yarn and design you requested.</p>
+          <span class="about-card-tag">100% Custom · Handmade</span>
+        </div>
+        <div class="about-accent">
+          <strong>∞</strong>
+          Any design.<br>Any colour.<br>Your size.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PROCESS BANNER ═══ -->
+  <section class="process-banner">
+    <div class="container">
+      <p class="eyebrow" style="color:var(--blush); letter-spacing:0.3em;">The Process</p>
+      <h2 class="section-title reveal">From idea to finished piece</h2>
+      <p class="section-body reveal">Simple, transparent, and personal — from the moment you reach out to the moment you wear it.</p>
+
+      <div class="process-steps-row">
+        <div class="process-step reveal">
+          <div class="process-step-icon">💬</div>
+          <h4>Contact Us</h4>
+          <p>Send your design idea, reference photos, and colour preference</p>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-step-icon">🧮</div>
+          <h4>Get a Quote</h4>
+          <p>We calculate yarn cost + craft effort and give you a fair, honest price</p>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-step-icon">🪡</div>
+          <h4>We Create</h4>
+          <p>Every stitch is made by hand, with love and attention to your details</p>
+        </div>
+        <div class="process-step reveal">
+          <div class="process-step-icon">🎁</div>
+          <h4>You Receive</h4>
+          <p>Your unique, one-of-a-kind handmade piece — ready to wear or gift</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ COLOURS ═══ -->
+  <section class="section colours" id="colours">
+    <div class="container">
+      <div class="colours-intro">
+        <div>
+          <p class="eyebrow reveal">Yarn Colours</p>
+          <h2 class="section-title reveal">Any colour<br>you can dream</h2>
+          <p class="section-body reveal">
+            We source yarn in virtually any colour you want — from bold and vibrant to soft and neutral. Just tell us your preferred shade and we'll find the perfect match.
+          </p>
+        </div>
+        <div class="colours-note reveal">
+          <div class="colours-note-icon">🎨</div>
+          <div>
+            <h4>Colour matching</h4>
+            <p>Can't name the exact shade? Send us a photo, screenshot, or colour reference and we'll match it as closely as possible when sourcing your yarn.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spinning colour wheel -->
+      <div class="wheel-wrapper reveal" aria-hidden="true">
+        <div class="colour-wheel" id="colour-wheel">
+          <div class="wheel-ring" id="outer-ring"></div>
+          <div class="wheel-ring-inner" id="inner-ring"></div>
+          <div class="wheel-center"><span>🧶</span></div>
+        </div>
+      </div>
+
+      <!-- Colour tile grid -->
+      <div class="colour-grid">
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#E8919F;"></div><div class="colour-label">Blush Rose</div></div>
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#1E1E1E;"></div><div class="colour-label">Midnight Black</div></div>
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#7D8C3A;"></div><div class="colour-label">Sage Olive</div></div>
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#A85672;"></div><div class="colour-label">Deep Rose</div></div>
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#8B5E3C;"></div><div class="colour-label">Warm Brown</div></div>
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#F9E4B0;"></div><div class="colour-label">Buttercream</div></div>
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#5B7FA6;"></div><div class="colour-label">Sky Blue</div></div>
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#A67BC4;"></div><div class="colour-label">Lavender</div></div>
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#F0C04A;"></div><div class="colour-label">Sunflower</div></div>
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#4C9B6F;"></div><div class="colour-label">Forest Green</div></div>
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#E8734A;"></div><div class="colour-label">Terracotta</div></div>
+        <div class="colour-tile reveal"><div class="colour-swatch" style="background:#FFFFFF; border:1px solid #eee;"></div><div class="colour-label">Pure White</div></div>
+      </div>
+      <p class="colours-disclaimer reveal">These are just a sample — <strong>we can source almost any colour.</strong> Just ask! 🎨</p>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="section contact" id="contact">
+    <div class="container contact-inner">
+      <div>
+        <p class="eyebrow reveal">Get In Touch</p>
+        <h2 class="section-title reveal">Let's make your piece</h2>
+        <p class="section-body reveal">
+          Ready to order? Have a question? Just reach out — describe your design and we'll get back to you quickly with a quote.
+        </p>
+
+        <div class="contact-cards">
+          <!-- WhatsApp — EDIT number below -->
+          <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" class="contact-card reveal" target="_blank" rel="noopener">
+            <div class="contact-card-icon ic-wa">💬</div>
+            <div class="contact-card-info">
+              <h4>WhatsApp</h4>
+              <p>+234 — Your Number Here</p>
+            </div>
+            <span class="contact-card-arrow">›</span>
+          </a>
+
+          <!-- Gmail — EDIT email below -->
+          <a href="mailto:youremail@gmail.com" class="contact-card reveal">
+            <div class="contact-card-icon ic-gm">✉️</div>
+            <div class="contact-card-info">
+              <h4>Email</h4>
+              <p>youremail@gmail.com</p>
+            </div>
+            <span class="contact-card-arrow">›</span>
+          </a>
+
+          <!-- Instagram — EDIT handle below -->
+          <a href="https://instagram.com/YOUR_HANDLE" class="contact-card reveal" target="_blank" rel="noopener">
+            <div class="contact-card-icon ic-ig">📸</div>
+            <div class="contact-card-info">
+              <h4>Instagram</h4>
+              <p>@your_handle</p>
+            </div>
+            <span class="contact-card-arrow">›</span>
+          </a>
+
+          <!-- TikTok — EDIT handle below -->
+          <a href="https://tiktok.com/@YOUR_HANDLE" class="contact-card reveal" target="_blank" rel="noopener">
+            <div class="contact-card-icon ic-tt">🎵</div>
+            <div class="contact-card-info">
+              <h4>TikTok</h4>
+              <p>@your_handle</p>
+            </div>
+            <span class="contact-card-arrow">›</span>
+          </a>
+
+          <!-- Facebook — EDIT link below -->
+          <a href="https://facebook.com/YOUR_PAGE" class="contact-card reveal" target="_blank" rel="noopener">
+            <div class="contact-card-icon ic-fb">👍</div>
+            <div class="contact-card-info">
+              <h4>Facebook</h4>
+              <p>Cherity's Aesthetics</p>
+            </div>
+            <span class="contact-card-arrow">›</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-panel reveal">
+        <h3>Ready to order?</h3>
+        <p>
+          When you reach out, try to include:
+        </p>
+        <div class="panel-tags">
+          <span class="ptag">🧥 Clothing type</span>
+          <span class="ptag">🎨 Colour(s)</span>
+          <span class="ptag">📐 Your measurements</span>
+          <span class="ptag">🖼️ Design reference</span>
+          <span class="ptag">📅 Deadline (if any)</span>
+        </div>
+        <p style="margin-top:1.2rem;">
+          The more detail you share, the faster we can get you an accurate quote. We'll respond within 24 hours!
+        </p>
+        <!-- EDIT whatsapp number here too -->
+        <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" class="panel-cta" target="_blank" rel="noopener">
+          💬 &nbsp;Message on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <span class="footer-logo">Cherity's Aesthetics</span>
+    <p>&copy; 2026 Cherity's Aesthetics. All rights reserved.</p>
+    <p>Made with 🧶 and love</p>
+  </footer>
+
+  <!-- ═══ SCRIPTS ═══ -->
+  <script>
+    /* ── Nav scroll shadow ── */
+    const nav = document.getElementById('main-nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    /* ── Burger menu ── */
+    const burgerBtn = document.getElementById('burger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    burgerBtn.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      burgerBtn.classList.toggle('open', isOpen);
+      burgerBtn.setAttribute('aria-expanded', isOpen);
+    });
+
+    function closeMenu() {
+      mobileMenu.classList.remove('open');
+      burgerBtn.classList.remove('open');
+      burgerBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    /* ── Scroll-reveal ── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          // stagger siblings slightly
+          const siblings = [...e.target.parentElement.querySelectorAll('.reveal')];
+          const idx = siblings.indexOf(e.target);
+          e.target.style.transitionDelay = (idx * 0.08) + 's';
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    /* ── Colour wheel ── */
+    function buildWheel() {
+      const outerRing = document.getElementById('outer-ring');
+      const innerRing = document.getElementById('inner-ring');
+      const wheelEl   = document.querySelector('.colour-wheel');
+      if (!outerRing || !wheelEl) return;
+
+      const size = wheelEl.offsetWidth;
+      const outerR = size / 2;
+      const innerR = size * 0.32;
+
+      const outerColors = ['#E8919F','#1E1E1E','#7D8C3A','#A85672','#8B5E3C','#F9E4B0','#5B7FA6','#A67BC4','#F0C04A','#4C9B6F','#E8734A','#fff'];
+      const innerColors = ['#EFAAB8','#C4778A','#B5C96A','#E0809A','#BF9A78','#F5D080','#8EB4D4','#C4A2E0','#F5DC7A','#7DC49A','#F0A080','#D0D0D0'];
+
+      outerColors.forEach((color, i) => {
+        const angle = (i / outerColors.length) * 2 * Math.PI - Math.PI / 2;
+        const x = Math.cos(angle) * (outerR - 22);
+        const y = Math.sin(angle) * (outerR - 22);
+        const orb = document.createElement('div');
+        orb.className = 'colour-orb';
+        orb.style.cssText = `
+          background:${color};
+          transform: translate(calc(-50% + ${x}px), calc(-50% + ${y}px));
+          ${color === '#fff' ? 'border:1px solid #ddd;' : ''}
+        `;
+        orb.title = color;
+        outerRing.appendChild(orb);
+      });
+
+      innerColors.forEach((color, i) => {
+        const angle = (i / innerColors.length) * 2 * Math.PI - Math.PI / 2;
+        const x = Math.cos(angle) * (innerR - 14);
+        const y = Math.sin(angle) * (innerR - 14);
+        const orb = document.createElement('div');
+        orb.className = 'colour-orb colour-orb-sm';
+        orb.style.cssText = `
+          background:${color};
+          transform: translate(calc(-50% + ${x}px), calc(-50% + ${y}px));
+        `;
+        innerRing.appendChild(orb);
+      });
+    }
+
+    window.addEventListener('load', buildWheel);
+  </script>
+</body>
+</html>
