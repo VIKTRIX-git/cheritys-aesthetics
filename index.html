@@ -544,11 +544,15 @@
       display: flex;
       justify-content: center;
       margin: 1rem 0 2.5rem;
+      overflow: hidden;
     }
     .colour-wheel {
       position: relative;
       width: clamp(220px, 35vw, 320px);
       height: clamp(220px, 35vw, 320px);
+      overflow: hidden;
+      border-radius: 50%;
+      flex-shrink: 0;
     }
     .wheel-center {
       position: absolute;
@@ -570,12 +574,14 @@
       inset: 0;
       border-radius: 50%;
       animation: spinWheel 20s linear infinite;
+      overflow: visible;
     }
     .wheel-ring-inner {
       position: absolute;
       inset: 18%;
       border-radius: 50%;
       animation: spinWheel 14s linear infinite reverse;
+      overflow: visible;
     }
     @keyframes spinWheel { to { transform: rotate(360deg); } }
 
@@ -1093,10 +1099,12 @@
 
       <!-- Spinning colour wheel -->
       <div class="wheel-wrapper reveal" aria-hidden="true">
-        <div class="colour-wheel" id="colour-wheel">
-          <div class="wheel-ring" id="outer-ring"></div>
-          <div class="wheel-ring-inner" id="inner-ring"></div>
-          <div class="wheel-center"><span>🧶</span></div>
+        <div style="position:relative; width:clamp(220px,35vw,320px); height:clamp(220px,35vw,320px); overflow:hidden; border-radius:50%; flex-shrink:0;">
+          <div class="colour-wheel" id="colour-wheel" style="position:absolute;inset:0;overflow:visible;">
+            <div class="wheel-ring" id="outer-ring"></div>
+            <div class="wheel-ring-inner" id="inner-ring"></div>
+            <div class="wheel-center"><span>🧶</span></div>
+          </div>
         </div>
       </div>
 
