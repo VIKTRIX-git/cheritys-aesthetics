@@ -343,14 +343,11 @@
     /* floating yarn dots decoration */
     .hero-yarn-row {
       position: absolute;
-      bottom: 2.5rem;
-      display: none;
+      bottom: 1.2rem;
+      display: flex;
       gap: 0.6rem;
       opacity: 0;
       animation: fadeUp 0.6s ease forwards 1.4s;
-    }
-    @media (max-width: 768px) {
-      .hero-yarn-row { display: flex; }
     }
     .yarn-dot {
       width: 10px; height: 10px;
@@ -581,6 +578,10 @@
       animation: spinWheel 14s linear infinite reverse;
     }
     @keyframes spinWheel { to { transform: rotate(360deg); } }
+    @media (min-width: 769px) {
+      .wheel-ring       { animation-duration: 45s !important; }
+      .wheel-ring-inner { animation-duration: 30s !important; }
+    }
 
     .colour-orb {
       position: absolute;
