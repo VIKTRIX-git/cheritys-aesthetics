@@ -541,10 +541,15 @@
 
     /* spinning colour wheel */
     .wheel-wrapper {
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       margin: 1rem 0 2.5rem;
+    }
+    @media (max-width: 768px) {
+      .wheel-wrapper {
+        display: flex;
+      }
     }
     .wheel-clip {
       width: clamp(220px, 35vw, 320px);
